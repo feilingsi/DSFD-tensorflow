@@ -13,7 +13,6 @@ class FaceDetector:
             model_path: a string, path to a pb file.
         """
         self._graph = tf.Graph()
-        self._sess = tf.Session(graph=self._graph)
 
         with self._graph.as_default():
             self._graph, self._sess = self.init_model(model_path)

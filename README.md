@@ -26,33 +26,28 @@ opencv
 python 3.6
 
 
-
-
-
 ### train
-
 
 1. data formate and prepare data
 
-   u should prepare the data like this:
+u should prepare the data like this:
 
-   ...../9_Press_Conference_Press_Conference_9_659.jpg| 483,195,735,543,1
+...../9_Press_Conference_Press_Conference_9_659.jpg| 483,195,735,543,1
 
-   one line for one pic
+one line for one pic
 
-   **caution! class should start from 1, 0 means bg**
+**caution! class should start from 1, 0 means bg**
 
+download widerface data from http://shuoyang1213.me/WIDERFACE/
 
-   download widerface data from http://shuoyang1213.me/WIDERFACE/
+and release the WIDER_train, WIDER_val and wider_face_split into ./WIDER, or somewhere u like,then run
 
-   and release the WIDER_train, WIDER_val and wider_face_split into ./WIDER, or somewhere u like,then run
-
-   `python prepare_wider_data.py` it will produce train.txt and val.txt
+`python prepare_wider_data.py` it will produce train.txt and val.txt
 
 2.download the imagenet pretrained resnet50 model from http://download.tensorflow.org/models/resnet_v1_50_2016_08_28.tar.gz
 
-   release it in the root dir,
-   as in train_config.py set config.MODEL.pretrained_model='resnet_v1_50.ckpt',config.MODEL.continue_train=False
+release it in the root dir,
+as in train_config.py set config.MODEL.pretrained_model='resnet_v1_50.ckpt',config.MODEL.continue_train=False
 
 3.but if u want to train from scratch set config.MODEL.pretrained_model=None,
 

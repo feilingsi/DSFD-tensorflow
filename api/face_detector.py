@@ -75,7 +75,7 @@ class FaceDetector:
             boxes[i] = np.array([boxes[i][1], boxes[i][0], boxes[i][3],boxes[i][2]])  #####the faceboxe produce ymin,xmin,ymax,xmax
 
 
-        return np.concatenate([boxes, scores,labels],axis=1)
+        return np.concatenate([boxes, scores],axis=1)
     def Fill_img(self,img_raw,target_height,target_width,label=None):
 
         ###sometimes use in objs detects

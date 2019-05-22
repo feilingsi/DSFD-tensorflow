@@ -25,22 +25,6 @@ opencv
 
 python 3.6
 
-### anchor
-
-if u like to show the anchor stratergy, u could simply run :
-
-`python anchor/utils.py`
-
-
-it will draw the anchor one by one,
-
-
-### data augmentation
-
-if u like to know how the data augmentation works, run :
-
-`python data/augmentor/augmentation.py`
-
 
 ### data formate and prepare data
 
@@ -138,3 +122,20 @@ u can check th code in vis.py to make it runable, it's simple.
 download a pretrained model(detector.pb) from https://pan.baidu.com/s/1SRMoJIcqHRoVydl2XIZ3lA (code m3bg)
 put it in to './model/detector.pb'
 
+
+### details
+#### anchor
+
+if u like to show the anchor stratergy, u could simply run :
+
+`python anchor/utils.py`
+
+
+it will draw the anchor one by one,
+
+
+#### data augmentation
+
+if u like to know how the data augmentation works, run :
+
+`python data/augmentor/augmentation.py`

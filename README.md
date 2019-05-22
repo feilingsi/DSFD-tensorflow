@@ -27,16 +27,13 @@ python 3.6
 
 
 ### train
-
 1. data formate and prepare data
 
 u should prepare the data like this:
 
-...../9_Press_Conference_Press_Conference_9_659.jpg| 483,195,735,543,1
+`...../9_Press_Conference_Press_Conference_9_659.jpg| 483,195,735,543,1`
 
-one line for one pic
-
-**caution! class should start from 1, 0 means bg**
+one line for one pic, **caution! class should start from 1, 0 means bg**
 
 download widerface data from http://shuoyang1213.me/WIDERFACE/
 

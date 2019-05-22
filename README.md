@@ -116,6 +116,8 @@ and if u want to check the data when training, u could set vis in train_config.p
 
 (caution: i dont know where the demo picture coms from, if u think it's a tort, i would like to delet it)
 
+if u get a trained model, run `python tools/auto_freeze.py`, it will read the checkpoint file in model, and produce detector.pb, then
+
 `python vis.py`
 
 u can check th code in vis.py to make it runable, it's simple.

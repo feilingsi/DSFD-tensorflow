@@ -112,12 +112,14 @@ and if u want to check the data when training, u could set vis in train_config.p
 
 ### evaluation
 
-`python model_eval/fddb.py [--model [TRAINED_MODEL]] [--data_dir [DATA_DIR]]
+```
+    python model_eval/fddb.py [--model [TRAINED_MODEL]] [--data_dir [DATA_DIR]]
                           [--split_dir [SPLIT_DIR]] [--result [RESULT_DIR]]
     --model              Path of the saved model,default ./model/detector.pb
     --data_dir           Path of fddb all images
     --split_dir          Path of fddb folds
-    --result             Path to save fddb results`
+    --result             Path to save fddb results
+ ```
     
 example `python model_eval/fddb.py --data_dir 'fddb/img/' --split_dir fddb/FDDB-folds/ --result 'result/' `
 

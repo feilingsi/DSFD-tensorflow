@@ -84,10 +84,10 @@ print(len(all_anchors_flatten))
 
 # basemodel ---------------------- fddb 0.983
 config.MODEL = edict()
-config.MODEL.continue_train=True ### revover from a trained model
+config.MODEL.continue_train=False ### revover from a trained model
 config.MODEL.model_path = './model/'  # save directory
 config.MODEL.net_structure='resnet_v1_50' ######'resnet_v1_50,resnet_v1_101,mobilenet
-config.MODEL.pretrained_model='./model/epoch_50L2_0.0005.ckpt'
+config.MODEL.pretrained_model='resnet_v1_50.ckpt'
 
 ###resnet_v1_101 as basemodel
 # config.MODEL = edict()

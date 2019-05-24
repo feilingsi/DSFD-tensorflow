@@ -115,8 +115,6 @@ if u get a trained model, run `python tools/auto_freeze.py`, it will read the ch
 u can check th code in vis.py to make it runable, it's simple.
 
 
-download a pretrained model(detector.pb) from https://pan.baidu.com/s/1SRMoJIcqHRoVydl2XIZ3lA (code m3bg)
-put it in to './model/detector.pb'
 
 
 ### details

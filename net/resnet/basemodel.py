@@ -27,6 +27,15 @@ def resnet_arg_scope(bn_is_training,
         'updates_collections': ops.GraphKeys.UPDATE_OPS,
         'fused':True
     }
+    if 'BN' in config.TRAIN.norm:
+        norm_func=slim.batch_norm
+        norm_params=batch_norm_params
+    elif 'GN' in config.TRAIN.norm:
+        norm_func =GroupNorm
+        norm_params = None
+    elif 'None' in config.TRAIN.norm:
+        norm_func = None
+        norm_params = None
 
     with arg_scope(
             [slim.conv2d,slim.separable_conv2d],
@@ -34,8 +43,8 @@ def resnet_arg_scope(bn_is_training,
             weights_initializer=initializers.variance_scaling_initializer(),
             trainable=trainable,
             activation_fn=nn_ops.relu,
-            normalizer_fn=slim.batch_norm if 'BN' in config.TRAIN.norm else GroupNorm,
-            normalizer_params=batch_norm_params if 'BN' in config.TRAIN.norm else None,
+            normalizer_fn=norm_func,
+            normalizer_params=norm_params,
             data_format=data_format):
         with arg_scope(
                 [layers.batch_norm,layers.max_pool2d], data_format=data_format):

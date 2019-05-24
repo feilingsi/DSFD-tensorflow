@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d9a5d99f-65a3-444a-be6f-a140fd60ccce" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/net/FEM.py" beforeDir="false" afterPath="$PROJECT_DIR$/net/FEM.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/net/mobilenet/backbone.py" beforeDir="false" afterPath="$PROJECT_DIR$/net/mobilenet/backbone.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/net/resnet/backbone.py" beforeDir="false" afterPath="$PROJECT_DIR$/net/resnet/backbone.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/net/ssd.py" beforeDir="false" afterPath="$PROJECT_DIR$/net/ssd.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/net/ssd_loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/net/ssd_loss.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/net/vgg/backbone.py" beforeDir="false" afterPath="$PROJECT_DIR$/net/vgg/backbone.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/auto_freeze.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools/auto_freeze.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/net/resnet/basemodel.py" beforeDir="false" afterPath="$PROJECT_DIR$/net/resnet/basemodel.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_config.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,11 +13,32 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/train_config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
+            <state relative-caret-position="-1254">
+              <caret line="11" column="32" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/net/resnet/basemodel.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="456">
+              <caret line="35" column="35" selection-start-line="35" selection-start-column="35" selection-end-line="35" selection-end-column="35" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/net/ssd.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="418">
+              <caret line="40" column="16" selection-start-line="40" selection-start-column="10" selection-end-line="40" selection-end-column="16" />
+              <folding>
+                <element signature="e#22#45#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -33,7 +47,7 @@
         <entry file="file://$PROJECT_DIR$/vis.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="236">
-              <caret line="46" column="37" lean-forward="true" selection-start-line="46" selection-start-column="37" selection-end-line="46" selection-end-column="37" />
+              <caret line="46" column="37" selection-start-line="46" selection-start-column="37" selection-end-line="46" selection-end-column="37" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -112,7 +126,6 @@
         <option value="$PROJECT_DIR$/anchor/base_anchor.py" />
         <option value="$PROJECT_DIR$/data/utils.py" />
         <option value="$PROJECT_DIR$/net/ssd_out.py" />
-        <option value="$PROJECT_DIR$/net/resnet/basemodel.py" />
         <option value="$PROJECT_DIR$/net_work.py" />
         <option value="$PROJECT_DIR$/Prunning/parse_ckpt.py" />
         <option value="$PROJECT_DIR$/net/resnet/backbone.py" />
@@ -124,6 +137,7 @@
         <option value="$PROJECT_DIR$/net/FEM.py" />
         <option value="$PROJECT_DIR$/vis.py" />
         <option value="$PROJECT_DIR$/train_config.py" />
+        <option value="$PROJECT_DIR$/net/resnet/basemodel.py" />
       </list>
     </option>
   </component>
@@ -149,6 +163,12 @@
               <item name="DSFD-tensorflow" type="b2602c69:ProjectViewProjectNode" />
               <item name="DSFD-tensorflow" type="462c0819:PsiDirectoryNode" />
               <item name="net" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DSFD-tensorflow" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DSFD-tensorflow" type="462c0819:PsiDirectoryNode" />
+              <item name="net" type="462c0819:PsiDirectoryNode" />
+              <item name="resnet" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -255,13 +275,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Prunning/parse_ckpt.py" />
-    <entry file="file://$PROJECT_DIR$/net/resnet/basemodel.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/net/ssd_out.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="23">
@@ -336,30 +349,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/net/ssd.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="40" column="45" lean-forward="true" selection-start-line="40" selection-start-column="45" selection-end-line="40" selection-end-column="45" />
-          <folding>
-            <element signature="e#22#45#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vis.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="236">
-          <caret line="46" column="37" lean-forward="true" selection-start-line="46" selection-start-column="37" selection-end-line="46" selection-end-column="37" />
+          <caret line="46" column="37" selection-start-line="46" selection-start-column="37" selection-end-line="46" selection-end-column="37" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/net/ssd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="40" column="16" selection-start-line="40" selection-start-column="10" selection-end-line="40" selection-end-column="16" />
+          <folding>
+            <element signature="e#22#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/train_config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
+        <state relative-caret-position="-1254">
+          <caret line="11" column="32" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/net/resnet/basemodel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="456">
+          <caret line="35" column="35" selection-start-line="35" selection-start-column="35" selection-end-line="35" selection-end-column="35" />
         </state>
       </provider>
     </entry>

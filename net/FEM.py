@@ -26,8 +26,10 @@ if 'MobilenetV1' in cfg.MODEL.net_structure:
     resnet_dims=[64,128,256,512,512,256]
 elif 'resnet' in cfg.MODEL.net_structure:
     resnet_dims=[256,512,1024,2048,512,256]
+elif 'vgg' in cfg.MODEL.net_structure:
+    resnet_dims=[256,512,512,1024,512,256]
 else:
-    ssd_backbne = None
+    resnet_dims = None
 
 
 

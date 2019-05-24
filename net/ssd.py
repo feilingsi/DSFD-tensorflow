@@ -10,7 +10,7 @@ from anchor.nms import batch_non_max_suppression
 
 from net.resnet.backbone import resnet_ssd
 from net.mobilenet.backbone import mobilenet_ssd
-
+from net.vgg.backbone import vgg_ssd
 from net.ssd_out import ssd_out
 from net.ssd_loss import ssd_loss
 from net.FEM import create_fem_net
@@ -40,38 +40,42 @@ def SSD(images,boxes,labels,L2_reg,training=True):
         ssd_backbne=mobilenet_ssd
     elif 'resnet' in cfg.MODEL.net_structure:
         ssd_backbne = resnet_ssd
+    elif 'vgg' in cfg.MODEL.net_structure:
+        ssd_backbne = vgg_ssd
     else:
         ssd_backbne=None
         print('a net structure that not supported')
 
-    fms=ssd_backbne(images, L2_reg, training)
-    #fms = magic_nn(images, L2_reg, training)
-    #fms = vgg_ssd(images, L2_reg, training)
-    print('backbone', fms)
+    origin_fms,enhanced_fms=ssd_backbne(images, L2_reg, training)
+
+
+    print('origin_fms', origin_fms)
+    print('enhanced_fms', enhanced_fms)
+
 
     with tf.variable_scope('ssd'):
 
         if not cfg.MODEL.fpn and not cfg.MODEL.dual_mode:
-            reg_final, cla_final=ssd_out(fms, L2_reg, training)
+            reg_final, cla_final=ssd_out(origin_fms, L2_reg, training)
 
             reg_loss, cla_loss = ssd_loss(reg_final, cla_final, boxes, labels, 'ohem')
         elif  cfg.MODEL.fpn and not cfg.MODEL.dual_mode:
-            fms = create_fem_net(fms, L2_reg, training)
+            fms = create_fem_net(origin_fms, L2_reg, training)
             print('fem', fms)
             reg_final, cla_final = ssd_out(fms, L2_reg, training)
             reg_loss, cla_loss = ssd_loss(reg_final, cla_final, boxes, labels, 'ohem')
 
         elif cfg.MODEL.dual_mode:
-            reg, cla= ssd_out(fms, L2_reg, training,1)
+            reg, cla= ssd_out(origin_fms, L2_reg, training,1)
             boxes_small=boxes[:,1::2]
             label_small=labels[:,1::2]
 
             reg_loss, cla_loss = ssd_loss(reg, cla, boxes_small, label_small, 'focal_loss')
 
             with tf.variable_scope('dual'):
-                fms = create_fem_net(fms, L2_reg, training)
-                print('fem',fms)
-                reg_final, cla_final = ssd_out(fms, L2_reg, training,1)
+
+
+                reg_final, cla_final = ssd_out(enhanced_fms, L2_reg, training,1)
 
                 boxes_norm = boxes[:, 0::2]
                 label_norm = labels[:, 0::2]

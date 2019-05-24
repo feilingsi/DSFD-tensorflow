@@ -8,7 +8,7 @@ from net.mobilenet.mobilenet_v1 import mobilenet_v1_050,mobilenet_v1_arg_scope
 from net.resnet.basemodel import resnet_arg_scope
 
 
-
+from net.FEM import create_fem_net
 
 def mobilenet_ssd(image,L2_reg,is_training=True,data_format='NHWC'):
 
@@ -31,8 +31,7 @@ def mobilenet_ssd(image,L2_reg,is_training=True,data_format='NHWC'):
     mobilebet_fms=[endpoint['Conv2d_3_pointwise'],endpoint['Conv2d_5_pointwise'],endpoint['Conv2d_11_pointwise'],endpoint['Conv2d_13_pointwise']]
 
     print('mobile backbone output:',mobilebet_fms)
-    with slim.arg_scope(resnet_arg_scope(weight_decay=L2_reg, bn_is_training=is_training, bn_trainable=True,
-                                         data_format=data_format)):
+    with slim.arg_scope(resnet_arg_scope(weight_decay=L2_reg, bn_is_training=is_training)):
 
         # net = block(resnet_fms[-1], num_units=2, out_channels=512, scope='extra_Stage1')
         # resnet_fms.append(net)
@@ -46,4 +45,6 @@ def mobilenet_ssd(image,L2_reg,is_training=True,data_format='NHWC'):
         mobilebet_fms.append(net)
         print('extra backbone output:', mobilebet_fms)
 
-    return mobilebet_fms
+        enhanced_fms = create_fem_net(mobilebet_fms, L2_reg, is_training)
+
+    return mobilebet_fms,enhanced_fms

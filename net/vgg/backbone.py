@@ -3,7 +3,9 @@ import tensorflow.contrib.slim as slim
 from net.resnet.basemodel import resnet50, resnet101,resnet_arg_scope
 
 from net.vgg.vgg import vgg_16
+from net.FEM import create_fem_net
 
+from train_config import config as cfg
 
 def l2_normalization(x, scale, name):
     with tf.variable_scope(name):
@@ -66,6 +68,15 @@ def vgg_ssd(image,L2_reg,is_training=True):
 
         print(vgg_fms)
 
+        vgg_fms[0] = l2_normalization(vgg_fms[0], scale=cfg.MODEL.l2_norm[0], name='of0')
+        vgg_fms[1] = l2_normalization(vgg_fms[1], scale=cfg.MODEL.l2_norm[1], name='of1')
+        vgg_fms[2] = l2_normalization(vgg_fms[2], scale=cfg.MODEL.l2_norm[2], name='of2')
+
+        enhanced_fms = create_fem_net(vgg_fms, L2_reg, is_training)
 
 
-    return vgg_fms
+        enhanced_fms[0] = l2_normalization(enhanced_fms[0], scale=cfg.MODEL.l2_norm[0], name='ef0')
+        enhanced_fms[1] = l2_normalization(enhanced_fms[1], scale=cfg.MODEL.l2_norm[1], name='ef1')
+        enhanced_fms[2] = l2_normalization(enhanced_fms[2], scale=cfg.MODEL.l2_norm[2], name='ef2')
+
+    return vgg_fms,enhanced_fms

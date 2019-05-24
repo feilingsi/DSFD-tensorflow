@@ -1,7 +1,7 @@
 
 import os
 import tensorflow as tf
-
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 model_folder = './model'
 checkpoint = tf.train.get_checkpoint_state(model_folder)
 

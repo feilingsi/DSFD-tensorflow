@@ -136,7 +136,7 @@ def _data_aug_fn(fname, ground_truth,is_training=True):
 
         if random.uniform(0, 1) > 0.5:
             image, boxes = Random_flip(image, boxes)
-        image = Pixel_jitter(image, max_=15)
+        #image = Pixel_jitter(image, max_=15)
         if random.uniform(0, 1) > 0.5:
             image = Random_brightness(image, 35)
         if random.uniform(0, 1) > 0.5:
@@ -152,15 +152,15 @@ def _data_aug_fn(fname, ground_truth,is_training=True):
             image = Gray_aug(image)
         if random.uniform(0, 1) > 0.7:
             image = Swap_change_aug(image)
-        if random.uniform(0, 1) > 0.7:
-            boxes_ = boxes[:, 0:4]
-            klass_ = boxes[:, 4:]
-            angle = random.sample([-90, 90], 1)[0]
-            image, boxes_ = Rotate_with_box(image, boxes=boxes_, angle=angle)
-            boxes = np.concatenate([boxes_, klass_], axis=1)
+        # if random.uniform(0, 1) > 0.7:
+        #     boxes_ = boxes[:, 0:4]
+        #     klass_ = boxes[:, 4:]
+        #     angle = random.sample([-90, 90], 1)[0]
+        #     image, boxes_ = Rotate_with_box(image, boxes=boxes_, angle=angle)
+        #     boxes = np.concatenate([boxes_, klass_], axis=1)
 
         sample_dice=random.uniform(0, 1)
-        if  sample_dice> 0.7:
+        if  sample_dice> 1:
             if not cfg.DATA.MUTISCALE:
                 image, boxes = Random_scale_withbbox(image, boxes, target_shape=[cfg.DATA.hin, cfg.DATA.win],
                                                      jitter=0.3)
@@ -168,7 +168,7 @@ def _data_aug_fn(fname, ground_truth,is_training=True):
                 rand_h = random.sample(cfg.DATA.scales, 1)[0]
                 rand_w = random.sample(cfg.DATA.scales, 1)[0]
                 image, boxes = Random_scale_withbbox(image, boxes, target_shape=[rand_h, rand_w], jitter=0.3)
-        elif sample_dice>0.3 and sample_dice<=0.7:
+        elif sample_dice>0.5 and sample_dice<=1:
             boxes_ = boxes[:, 0:4]
             klass_ = boxes[:, 4:]
 

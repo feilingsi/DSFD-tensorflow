@@ -3,7 +3,7 @@
 
 import tensorflow as tf
 import tensorflow.contrib.slim as slim
-from net.simplenet.simple_nn import shufflenet_arg_scope
+from net.resnet.basemodel import resnet_arg_scope
 from train_config import config as cfg
 
 
@@ -61,7 +61,7 @@ def ssd_out(fms,L2_reg,training=True,ratios_per_pixel=num_predict_per_level):
 
     cla_set=[]
     reg_set=[]
-    arg_scope = shufflenet_arg_scope(weight_decay=L2_reg, is_training=training, )
+    arg_scope = resnet_arg_scope(weight_decay=L2_reg, bn_is_training=training, )
     with slim.arg_scope(arg_scope):
         with tf.variable_scope('ssdout'):
 

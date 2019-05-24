@@ -75,7 +75,7 @@ def make_anchor_in_ratios(base_anchor,ratios,rect=False):
         if rect:
             w=h=np.round(np.sqrt(area/ratio))
             if cfg.ANCHOR.rect_longer:
-                h=np.round(1.25*w)
+                h=np.round(1.5*w)
         else:
             w=np.round(np.sqrt(area/ratio))
             h=np.round(ratio*w)

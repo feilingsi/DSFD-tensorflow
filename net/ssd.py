@@ -6,10 +6,8 @@ import numpy as np
 
 from anchor.box_utils import batch_decode
 from anchor.nms import batch_non_max_suppression
-from net.simplenet.simple_nn import simple_nn
-from net.simplenet.backbone import fpn,create_fpn_net
 
-from net.lightnet.magic import magic_nn
+
 from net.resnet.backbone import resnet_ssd
 from net.mobilenet.backbone import mobilenet_ssd
 

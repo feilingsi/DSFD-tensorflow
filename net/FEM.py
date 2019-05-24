@@ -3,33 +3,19 @@ import tensorflow as tf
 import tensorflow.contrib.slim as slim
 from train_config import config as cfg
 
+from net.resnet.basemodel import resnet_arg_scope
 
-
-from net.simplenet.simple_nn import shufflenet_arg_scope
-
-from net.simplenet.simple_nn import simple_nn
-
-def halo(x,scope):
-    in_channels = x.shape[3].value
-    with tf.variable_scope(scope):
-        with tf.variable_scope('first_branch'):
-            x1 = slim.conv2d(x, 128, [3, 3], stride=1,rate=2, activation_fn=None, scope='_conv_1_1')
-        with tf.variable_scope('second_branch'):
-            x2 = slim.conv2d(x, 128, [3, 3], stride=1,rate=2, activation_fn=tf.nn.relu, scope='_conv_2_1')
-            x2 = slim.conv2d(x2, 128, [3, 3], stride=1,rate=2, activation_fn=None, scope='_conv_2_2')
-    x = tf.concat([x1, x2], axis=3)
-    return x
 def cpm(product,dim,scope):
 
     with tf.variable_scope(scope):
 
-        eyes_1=slim.conv2d(product, dim//2, [3, 3], stride=1,rate=1, activation_fn=tf.nn.relu, scope='eyes_1')
+        eyes_1=slim.conv2d(product, 256, [3, 3], stride=1,rate=1, activation_fn=tf.nn.relu, scope='eyes_1')
 
-        eyes_2_1=slim.conv2d(product, dim//2, [3, 3], stride=1,rate=2,  activation_fn=tf.nn.relu, scope='eyes_2_1')
-        eyes_2=slim.conv2d(eyes_2_1, dim//4, [3, 3], stride=1,rate=1,  activation_fn=tf.nn.relu, scope='eyes_2')
+        eyes_2_1=slim.conv2d(product, 256, [3, 3], stride=1,rate=2,  activation_fn=tf.nn.relu, scope='eyes_2_1')
+        eyes_2=slim.conv2d(eyes_2_1, 128, [3, 3], stride=1,rate=1,  activation_fn=tf.nn.relu, scope='eyes_2')
 
-        eyes_3_1 = slim.conv2d(eyes_2_1, dim//2, [3, 3], stride=1, rate=2, activation_fn=tf.nn.relu, scope='eyes_3_1')
-        eyes_3 = slim.conv2d(eyes_3_1, dim//4, [3, 3], stride=1,rate=1,  activation_fn=tf.nn.relu, scope='eyes_3')
+        eyes_3_1 = slim.conv2d(eyes_2_1, 128, [3, 3], stride=1, rate=2, activation_fn=tf.nn.relu, scope='eyes_3_1')
+        eyes_3 = slim.conv2d(eyes_3_1, 128, [3, 3], stride=1,rate=1,  activation_fn=tf.nn.relu, scope='eyes_3')
 
         fme_res = tf.concat([eyes_1, eyes_2,eyes_3], axis=3)
 
@@ -47,44 +33,60 @@ else:
 
 def create_fem_net(blocks, L2_reg,is_training, trainable=True,data_format='NHWC'):
 
-    global_fms = []
+    of0,of1,of2,of3,of4,of5=blocks
 
-    last_fm = None
     initializer = tf.contrib.layers.xavier_initializer()
-    for i, block in enumerate(reversed(blocks)):
-        with slim.arg_scope(shufflenet_arg_scope(weight_decay=L2_reg,is_training=is_training)):
 
-            dim = resnet_dims[6-i-1]
+    with slim.arg_scope(resnet_arg_scope(weight_decay=L2_reg,bn_is_training=is_training)):
 
-            if i>=3:
-                print(block)
-                print(last_fm)
-                lateral = slim.conv2d(block, dim, [1, 1],
-                    trainable=trainable, weights_initializer=initializer,
-                    padding='SAME', activation_fn=None,
-                    scope='lateral/res{}'.format(5-i))
-            else:
-                lateral=block
-            if last_fm is not None and i >=3:
-                upsample = slim.conv2d(last_fm, dim, [1, 1],
-                                       trainable=trainable, weights_initializer=initializer,
-                                       padding='SAME', activation_fn=None,
-                                       scope='merge/res{}'.format(5 - i), data_format=data_format)
-                upsample = tf.keras.layers.UpSampling2D(data_format='channels_last' if data_format=='NHWC' else 'channels_first')(upsample)
+        lateral = slim.conv2d(of2, resnet_dims[2], [1, 1],
+                                trainable=trainable, weights_initializer=initializer,
+                                padding='SAME',
+                                scope='lateral/res{}'.format(2))
 
-                last_fm = lateral* upsample
+        upsample = slim.conv2d(of3, resnet_dims[2], [1, 1],
+                               trainable=trainable, weights_initializer=initializer,
+                               padding='SAME',
+                               scope='merge/res{}'.format(2), data_format=data_format)
+        upsample = tf.keras.layers.UpSampling2D(data_format='channels_last' if data_format=='NHWC' else 'channels_first')(upsample)
 
-            else:
-                last_fm = lateral
+        fem_2 = lateral* upsample
 
-        global_fms.append(last_fm)
+        lateral = slim.conv2d(of1, resnet_dims[1], [1, 1],
+                              trainable=trainable, weights_initializer=initializer,
+                              padding='SAME',
+                              scope='lateral/res{}'.format(1))
 
-    global_fms.reverse()
+        upsample = slim.conv2d(fem_2, resnet_dims[1], [1, 1],
+                               trainable=trainable, weights_initializer=initializer,
+                               padding='SAME',
+                               scope='merge/res{}'.format(1), data_format=data_format)
+        upsample = tf.keras.layers.UpSampling2D(data_format='channels_last' if data_format == 'NHWC' else 'channels_first')(upsample)
 
-    global_fems_fms=[]
-    with slim.arg_scope(shufflenet_arg_scope(weight_decay=L2_reg, is_training=is_training)):
-        for i, fem in enumerate(global_fms):
+        fem_1 = lateral * upsample
+
+        lateral = slim.conv2d(of0, resnet_dims[0], [1, 1],
+                              trainable=trainable, weights_initializer=initializer,
+                              padding='SAME',
+                              scope='lateral/res{}'.format(0))
+
+        upsample = slim.conv2d(fem_1, resnet_dims[0], [1, 1],
+                               trainable=trainable, weights_initializer=initializer,
+                               padding='SAME',
+                               scope='merge/res{}'.format(0), data_format=data_format)
+        upsample = tf.keras.layers.UpSampling2D(data_format='channels_last' if data_format == 'NHWC' else 'channels_first')(upsample)
+
+        fem_0 = lateral * upsample
+
+
+
+        #####enhance model
+        fpn_fms=[fem_0,fem_1,fem_2,of3,of4,of5]
+        global_fems_fms=[]
+
+        for i, fem in enumerate(fpn_fms):
             tmp_res=cpm(fem,dim=resnet_dims[i],scope='fems%d'%i)
             global_fems_fms.append(tmp_res)
 
     return global_fems_fms
+

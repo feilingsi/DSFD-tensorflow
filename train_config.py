@@ -80,11 +80,11 @@ config.ANCHOR.achors_num=len(all_anchors_flatten)
 print(len(all_anchors_flatten))
 
 # basemodel ---------------------- fddb 0.983
-# config.MODEL = edict()
-# config.MODEL.continue_train=False ### revover from a trained model
-# config.MODEL.model_path = './model/'  # save directory
-# config.MODEL.net_structure='resnet_v1_50' ######'resnet_v1_50,resnet_v1_101,mobilenet
-# config.MODEL.pretrained_model='resnet_v1_50.ckpt'
+config.MODEL = edict()
+config.MODEL.continue_train=False ### revover from a trained model
+config.MODEL.model_path = './model/'  # save directory
+config.MODEL.net_structure='resnet_v1_50' ######'resnet_v1_50,resnet_v1_101,mobilenet
+config.MODEL.pretrained_model='resnet_v1_50.ckpt'
 
 ###resnet_v1_101 as basemodel
 # config.MODEL = edict()
@@ -94,12 +94,12 @@ print(len(all_anchors_flatten))
 # config.MODEL.pretrained_model='resnet_v1_101.ckpt'
 
 ##vgg as basemodel, if vgg set norm ='None
-config.MODEL = edict()
-config.MODEL.l2_norm=[10,8,5]
-config.MODEL.continue_train=False ### revover from a trained model
-config.MODEL.model_path = './model/'  # save directory
-config.MODEL.net_structure='vgg_16' ######'resnet_v1_50,resnet_v1_101,mobilenet
-config.MODEL.pretrained_model='vgg_16.ckpt'
+# config.MODEL = edict()
+# config.MODEL.l2_norm=[10,8,5]
+# config.MODEL.continue_train=False ### revover from a trained model
+# config.MODEL.model_path = './model/'  # save directory
+# config.MODEL.net_structure='vgg_16' ######'resnet_v1_50,resnet_v1_101,mobilenet
+# config.MODEL.pretrained_model='vgg_16.ckpt'
 
 # ##mobilenet as basemodel
 # config.MODEL = edict()

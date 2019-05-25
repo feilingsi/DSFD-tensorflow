@@ -26,7 +26,7 @@ config.TRAIN.weight_decay_factor = 5.e-4/config.TRAIN.num_gpu
 config.TRAIN.dropout=0.5  ##no use
 config.TRAIN.vis=False
 
-config.TRAIN.norm='None'    ##'GN' OR 'BN'
+config.TRAIN.norm='BN'    ##'GN' OR 'BN'
 config.TRAIN.lock_basenet_bn=False    ##'GN' OR 'BN'
 config.TEST = edict()
 config.TEST.PARALLEL_ITERATIONS=8

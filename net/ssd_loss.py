@@ -62,15 +62,10 @@ def ssd_loss(reg_predict,cla_predict,reg_label,cla_label,which_loss='focal_loss'
 
 
 
-    # reg_loss=tf.reduce_sum(location_losses/normalizer)
-    # cla_loss=tf.reduce_sum(cls_losses/normalizer)
 
 
-        reg_loss=tf.reduce_sum(location_losses)/normalizer
-        cla_loss=tf.reduce_sum(cls_losses)/normalizer
-    else:
-        reg_loss = tf.reduce_sum(location_losses)/normalizer
-        cla_loss = tf.reduce_mean(cls_losses)
+    reg_loss=tf.reduce_sum(location_losses)/normalizer
+    cla_loss=tf.reduce_sum(cls_losses)/normalizer
 
 
     return reg_loss,cla_loss

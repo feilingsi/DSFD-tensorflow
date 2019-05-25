@@ -219,14 +219,14 @@ def Fill_img(img_raw,target_height,target_width,label=None):
     raw_width = img_raw.shape[1]
     if raw_width / raw_height >= target_width / target_height:
         shape_need = [int(target_height / target_width * raw_width), raw_width, channel]
-        img_fill = np.zeros(shape_need, dtype=img_raw.dtype)
+        img_fill = np.zeros(shape_need, dtype=img_raw.dtype)+np.array(cfg.DATA.PIXEL_MEAN,dtype=img_raw.dtype)
         shift_x=(img_fill.shape[1]-raw_width)//2
         shift_y=(img_fill.shape[0]-raw_height)//2
         for i in range(channel):
             img_fill[shift_y:raw_height+shift_y, shift_x:raw_width+shift_x, i] = img_raw[:,:,i]
     else:
         shape_need = [raw_height, int(target_width / target_height * raw_height), channel]
-        img_fill = np.zeros(shape_need, dtype=img_raw.dtype)
+        img_fill = np.zeros(shape_need, dtype=img_raw.dtype)+np.array(cfg.DATA.PIXEL_MEAN,dtype=img_raw.dtype)
         shift_x = (img_fill.shape[1] - raw_width) // 2
         shift_y = (img_fill.shape[0] - raw_height) // 2
         for i in range(channel):
@@ -321,7 +321,7 @@ def Random_scale_withbbox(image,bboxes,target_shape,jitter=0.5):
 
     image=cv2.resize(croped,(rescale_w,rescale_h))
 
-    new_image=np.zeros(shape=[h,w,3],dtype=np.uint8)
+    new_image=np.zeros(shape=[h,w,3],dtype=np.uint8)++np.array(cfg.DATA.PIXEL_MEAN,dtype=np.uint8)
 
     dx = int(random.randint(0, w - rescale_w))
     dy = int(random.randint(0, h - rescale_h))
@@ -385,8 +385,8 @@ def Random_saturation(src,_range=[0.5,1.5]):
     src=src.astype(np.float32)
     c=random.randint(0,2)
 
-    if c:
-        src[:,:,c]=src[:,:,c]*random.uniform(*_range)
+
+    src[:,:,c]=src[:,:,c]*random.uniform(*_range)
     src[src>255]=255
     src[src < 0] = 0
     if np.sum(src) == 0:
@@ -445,37 +445,6 @@ def Mirror(src,label=None,symmetry=None):
         allc.append(cod[i][1])
     label = np.array(allc).reshape(label.shape[0], 2)
     return img,label
-
-def produce_heat_maps(label,map_size,stride,sigma):
-    def produce_heat_map(center,map_size,stride,sigma):
-        grid_y = map_size[0] // stride
-        grid_x = map_size[1] // stride
-        start = stride / 2.0 - 0.5
-        y_range = [i for i in range(grid_y)]
-        x_range = [i for i in range(grid_x)]
-        xx, yy = np.meshgrid(x_range, y_range)
-        xx = xx * stride + start
-        yy = yy * stride + start
-        d2 = (xx - center[0]) ** 2 + (yy - center[1]) ** 2
-        exponent = d2 / 2.0 / sigma / sigma
-        heatmap = np.exp(-exponent)
-        return heatmap
-    all_keypoints = label
-    point_num = all_keypoints.shape[1]
-    heatmaps_this_img=np.zeros([map_size[0],map_size[1],point_num])
-    for k in range(point_num):
-        heatmap = produce_heat_map([all_keypoints[0][k],all_keypoints[1][k]], map_size, stride, sigma)
-        heatmaps_this_img[:,:,k]=heatmap
-    return heatmaps_this_img
-def visualize_heatmap_target(heatmap):
-    map_size=heatmap.shape[0:2]
-    frame_num = heatmap.shape[2]
-    heat_ = np.zeros([map_size[0], map_size[1]])
-    for i in range(frame_num):
-        heat_ = heat_ + heatmap[:, :, i]
-    cv2.namedWindow('heat_map', 0)
-    cv2.imshow('heat_map', heat_)
-    cv2.waitKey(0)
 
 
 class RandomBaiduCrop(object):
@@ -583,7 +552,7 @@ class RandomBaiduCrop(object):
             if choice_box[0] < 0 or choice_box[1] < 0:
                 new_img_width = width if choice_box[0] >= 0 else width - choice_box[0]
                 new_img_height = height if choice_box[1] >= 0 else height - choice_box[1]
-                image_pad = np.zeros((new_img_height, new_img_width, 3), dtype=float)
+                image_pad = np.zeros((new_img_height, new_img_width, 3), dtype=float)+np.array(cfg.DATA.PIXEL_MEAN,dtype=float)
                 start_left = 0 if choice_box[0] >= 0 else -choice_box[0]
                 start_top = 0 if choice_box[1] >= 0 else -choice_box[1]
                 image_pad[start_top:, start_left:, :] = image

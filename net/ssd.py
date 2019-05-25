@@ -28,7 +28,7 @@ def preprocess( image):
 
         image_mean = tf.constant(mean, dtype=tf.float32)
         image_invstd = tf.constant(1.0 / std, dtype=tf.float32)
-        image = (image - image_mean) #* image_invstd                   ###imagenet preprocess just centered the data
+        image = (image - image_mean) * image_invstd                   ###imagenet preprocess just centered the data
 
     return image
 
@@ -70,7 +70,7 @@ def SSD(images,boxes,labels,L2_reg,training=True):
             boxes_small=boxes[:,1::2]
             label_small=labels[:,1::2]
 
-            reg_loss, cla_loss = ssd_loss(reg, cla, boxes_small, label_small, 'focal_loss')
+            reg_loss, cla_loss = ssd_loss(reg, cla, boxes_small, label_small, 'ohem')
 
             with tf.variable_scope('dual'):
 
@@ -83,8 +83,8 @@ def SSD(images,boxes,labels,L2_reg,training=True):
                 reg_loss_dual, cla_loss_dual = ssd_loss(reg_final, cla_final, boxes_norm, label_norm,'ohem')
 
 
-            reg_loss=(reg_loss+reg_loss_dual)/2.
-            cla_loss=(cla_loss+cla_loss_dual)/2.
+            reg_loss=(reg_loss+reg_loss_dual)
+            cla_loss=(cla_loss+cla_loss_dual)
 
 
     ###### make it easy to adjust the anchors,      but it trains with a fixed h,w

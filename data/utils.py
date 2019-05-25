@@ -136,12 +136,11 @@ def _data_aug_fn(fname, ground_truth,is_training=True):
 
         if random.uniform(0, 1) > 0.5:
             image, boxes = Random_flip(image, boxes)
-        #image = Pixel_jitter(image, max_=15)
+        image = Pixel_jitter(image, max_=15)
         if random.uniform(0, 1) > 0.5:
             image = Random_brightness(image, 35)
         if random.uniform(0, 1) > 0.5:
             image = Random_contrast(image, [0.5, 1.5])
-
         if random.uniform(0, 1) > 0.5:
             image = Random_saturation(image, [0.5, 1.5])
         if random.uniform(0, 1) > 0.5:
@@ -150,8 +149,8 @@ def _data_aug_fn(fname, ground_truth,is_training=True):
             image = Blur_aug(image, ksize=(k, k))
         if random.uniform(0, 1) > 0.7:
             image = Gray_aug(image)
-        if random.uniform(0, 1) > 0.7:
-            image = Swap_change_aug(image)
+        # if random.uniform(0, 1) > 0.7:
+        #     image = Swap_change_aug(image)
         # if random.uniform(0, 1) > 0.7:
         #     boxes_ = boxes[:, 0:4]
         #     klass_ = boxes[:, 4:]

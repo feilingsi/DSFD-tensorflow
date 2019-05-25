@@ -18,7 +18,7 @@ config.TRAIN.iter_num_per_epoch = config.TRAIN.train_set_size // config.TRAIN.nu
 
 config.TRAIN.val_iter=config.TRAIN.val_set_size// config.TRAIN.num_gpu // config.TRAIN.batch_size
 
-config.TRAIN.lr_value_every_step = [0.00001,0.0001,0.001,0.0001,0.00001,0.000001]
+config.TRAIN.lr_value_every_step = [0.0005,0.0001,0.001,0.0001,0.00001,0.000001]
 config.TRAIN.lr_decay_every_step = [8000,12000,60000,80000,100000]
 
 
@@ -26,7 +26,7 @@ config.TRAIN.weight_decay_factor = 5.e-4/config.TRAIN.num_gpu
 config.TRAIN.dropout=0.5  ##no use
 config.TRAIN.vis=False
 
-config.TRAIN.norm='BN'    ##'GN' OR 'BN'
+config.TRAIN.norm='None'    ##'GN' OR 'BN'
 config.TRAIN.lock_basenet_bn=False    ##'GN' OR 'BN'
 config.TEST = edict()
 config.TEST.PARALLEL_ITERATIONS=8
@@ -63,7 +63,7 @@ config.ANCHOR.ANCHOR_SIZES = (16,32,64, 128, 256, 512)   # sqrtarea of the ancho
 config.ANCHOR.ANCHOR_STRIDES = (4, 8,16, 32, 64, 128)  # strides for each FPN level. Must be the same length as ANCHOR_SIZES
 config.ANCHOR.ANCHOR_RATIOS = (1., 4.) ######
 config.ANCHOR.POSITIVE_ANCHOR_THRESH = 0.35
-config.ANCHOR.NEGATIVE_ANCHOR_THRESH = 0.3
+config.ANCHOR.NEGATIVE_ANCHOR_THRESH = 0.35
 config.ANCHOR.AVG_MATCHES=20
 config.ANCHOR.super_match=True
 

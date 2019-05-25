@@ -2,6 +2,7 @@
 
 
 import tensorflow as tf
+import tensorflow.contrib.slim as slim
 from tensorflow.python.ops import array_ops
 
 
@@ -23,9 +24,10 @@ def ssd_loss(reg_predict,cla_predict,reg_label,cla_label,which_loss='focal_loss'
                     cla_label
                 )
             else:
-                cls_losses = classification_loss(
+                cls_losses = ohem_loss(
                     cla_predict,
-                    cla_label
+                    cla_label,
+                    weights
                 )
 
         with tf.name_scope('localization_loss'):
@@ -40,33 +42,9 @@ def ssd_loss(reg_predict,cla_predict,reg_label,cla_label,which_loss='focal_loss'
         num_matches = tf.reduce_sum(matches_per_image)  # shape []
         normalizer = tf.maximum(num_matches, 1.0)
 
-    if 'ohem' in which_loss and 'focal_loss' not in which_loss:
-        if cfg.MODEL.dual_mode:
-            anchors_ = cfg.ANCHOR.achors[0::2]
-        else:
-            anchors_ = cfg.ANCHOR.achors
-        decoded_boxes = batch_decode(reg_predict,anchors_)
-        with tf.name_scope('ohem'):
-            location_losses, cls_losses = apply_hard_mining(
-                location_losses, cls_losses,
-                cla_predict,
-                weights, decoded_boxes,
-                loss_to_use=cfg.MODEL.loss_to_use,
-                loc_loss_weight=cfg.MODEL.loc_loss_weight,
-                cls_loss_weight=cfg.MODEL.cls_loss_weight,
-                num_hard_examples=cfg.MODEL.num_hard_examples,
-                nms_threshold=cfg.MODEL.nms_threshold,
-                max_negatives_per_positive=cfg.MODEL.max_negatives_per_positive,
-                min_negatives_per_image=cfg.MODEL.min_negatives_per_image
-            )
 
-
-
-
-
-    reg_loss=tf.reduce_sum(location_losses)/normalizer
-    cla_loss=tf.reduce_sum(cls_losses)/normalizer
-
+    reg_loss = tf.reduce_sum(location_losses) / normalizer
+    cla_loss = tf.reduce_sum(cls_losses)/ normalizer
 
     return reg_loss,cla_loss
 
@@ -88,11 +66,6 @@ def classification_loss(predictions, targets):
         labels=targets, logits=predictions
     )
     return cross_entropy
-
-
-
-
-
 
 
 def localization_loss(predictions, targets, weights):
@@ -151,9 +124,62 @@ def focal_loss(prediction_tensor, target_tensor, weights=None, alpha=0.25, gamma
 
 
 
+def ohem_loss(logits, targets, weights):
+
+
+    logits=tf.reshape(logits,shape=[-1,cfg.DATA.NUM_CLASS])
+    targets = tf.reshape(targets, shape=[-1])
+
+    weights=tf.reshape(weights,shape=[-1])
+
+
+    dtype = logits.dtype
+
+    pmask = weights
+    fpmask = tf.cast(pmask, dtype)
+    n_positives = tf.reduce_sum(fpmask)
+
+
+    no_classes = tf.cast(pmask, tf.int32)
+
+    predictions = slim.softmax(logits)
+
+
+    nmask = tf.logical_not(tf.cast(pmask,tf.bool))
+
+    fnmask = tf.cast(nmask, dtype)
+
+    nvalues = tf.where(nmask,
+                       predictions[:, 0],
+                       1. - fnmask)
+    nvalues_flat = tf.reshape(nvalues, [-1])
+    # Number of negative entries to select.
+    max_neg_entries = tf.cast(tf.reduce_sum(fnmask), tf.int32)
+    n_neg = tf.cast(cfg.MODEL.max_negatives_per_positive * n_positives, tf.int32) + cfg.TRAIN.batch_size
+
+    n_neg = tf.minimum(n_neg, max_neg_entries)
+
+    val, idxes = tf.nn.top_k(-nvalues_flat, k=n_neg)
+    max_hard_pred = -val[-1]
+    # Final negative mask.
+    nmask = tf.logical_and(nmask, nvalues < max_hard_pred)
+    fnmask = tf.cast(nmask, dtype)
+
+    # Add cross-entropy loss.
+    with tf.name_scope('cross_entropy_pos'):
+        loss = tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits,
+                                                              labels=targets)
+
+        neg_loss = tf.reduce_sum(loss * fpmask)
+
+    with tf.name_scope('cross_entropy_neg'):
+        loss = tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits,
+                                                              labels=no_classes)
+        pos_loss = tf.reduce_sum(loss * fnmask)
 
 
 
+    return neg_loss+pos_loss
 
 def apply_hard_mining(
         location_losses, cls_losses,

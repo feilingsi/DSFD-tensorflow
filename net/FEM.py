@@ -9,13 +9,13 @@ def cpm(product,dim,scope):
 
     with tf.variable_scope(scope):
 
-        eyes_1=slim.conv2d(product, 256, [3, 3], stride=1,rate=1, activation_fn=tf.nn.relu, scope='eyes_1')
+        eyes_1=slim.conv2d(product, 256, [3, 3], stride=1,rate=1, activation_fn=tf.nn.relu,normalizer_fn=None, scope='eyes_1')
 
-        eyes_2_1=slim.conv2d(product, 256, [3, 3], stride=1,rate=2,  activation_fn=tf.nn.relu, scope='eyes_2_1')
-        eyes_2=slim.conv2d(eyes_2_1, 128, [3, 3], stride=1,rate=1,  activation_fn=tf.nn.relu, scope='eyes_2')
+        eyes_2_1=slim.conv2d(product, 256, [3, 3], stride=1,rate=2,  activation_fn=tf.nn.relu,normalizer_fn=None, scope='eyes_2_1')
+        eyes_2=slim.conv2d(eyes_2_1, 128, [3, 3], stride=1,rate=1,  activation_fn=tf.nn.relu,normalizer_fn=None, scope='eyes_2')
 
-        eyes_3_1 = slim.conv2d(eyes_2_1, 128, [3, 3], stride=1, rate=2, activation_fn=tf.nn.relu, scope='eyes_3_1')
-        eyes_3 = slim.conv2d(eyes_3_1, 128, [3, 3], stride=1,rate=1,  activation_fn=tf.nn.relu, scope='eyes_3')
+        eyes_3_1 = slim.conv2d(eyes_2_1, 128, [3, 3], stride=1, rate=2, activation_fn=tf.nn.relu,normalizer_fn=None, scope='eyes_3_1')
+        eyes_3 = slim.conv2d(eyes_3_1, 128, [3, 3], stride=1,rate=1,  activation_fn=tf.nn.relu,normalizer_fn=None, scope='eyes_3')
 
         fme_res = tf.concat([eyes_1, eyes_2,eyes_3], axis=3)
 
@@ -43,12 +43,12 @@ def create_fem_net(blocks, L2_reg,is_training, trainable=True,data_format='NHWC'
 
         lateral = slim.conv2d(of2, resnet_dims[2], [1, 1],
                                 trainable=trainable, weights_initializer=initializer,
-                                padding='SAME',
+                                padding='SAME',normalizer_fn=None,activation_fn=None,
                                 scope='lateral/res{}'.format(2))
 
         upsample = slim.conv2d(of3, resnet_dims[2], [1, 1],
                                trainable=trainable, weights_initializer=initializer,
-                               padding='SAME',
+                               padding='SAME',normalizer_fn=None,activation_fn=None,
                                scope='merge/res{}'.format(2), data_format=data_format)
         upsample = tf.keras.layers.UpSampling2D(data_format='channels_last' if data_format=='NHWC' else 'channels_first')(upsample)
 
@@ -56,12 +56,12 @@ def create_fem_net(blocks, L2_reg,is_training, trainable=True,data_format='NHWC'
 
         lateral = slim.conv2d(of1, resnet_dims[1], [1, 1],
                               trainable=trainable, weights_initializer=initializer,
-                              padding='SAME',
+                              padding='SAME',normalizer_fn=None,activation_fn=None,
                               scope='lateral/res{}'.format(1))
 
         upsample = slim.conv2d(fem_2, resnet_dims[1], [1, 1],
                                trainable=trainable, weights_initializer=initializer,
-                               padding='SAME',
+                               padding='SAME',normalizer_fn=None,activation_fn=None,
                                scope='merge/res{}'.format(1), data_format=data_format)
         upsample = tf.keras.layers.UpSampling2D(data_format='channels_last' if data_format == 'NHWC' else 'channels_first')(upsample)
 
@@ -69,12 +69,12 @@ def create_fem_net(blocks, L2_reg,is_training, trainable=True,data_format='NHWC'
 
         lateral = slim.conv2d(of0, resnet_dims[0], [1, 1],
                               trainable=trainable, weights_initializer=initializer,
-                              padding='SAME',
+                              padding='SAME',normalizer_fn=None,activation_fn=None,
                               scope='lateral/res{}'.format(0))
 
         upsample = slim.conv2d(fem_1, resnet_dims[0], [1, 1],
                                trainable=trainable, weights_initializer=initializer,
-                               padding='SAME',
+                               padding='SAME',normalizer_fn=None,activation_fn=None,
                                scope='merge/res{}'.format(0), data_format=data_format)
         upsample = tf.keras.layers.UpSampling2D(data_format='channels_last' if data_format == 'NHWC' else 'channels_first')(upsample)
 

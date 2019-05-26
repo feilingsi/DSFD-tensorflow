@@ -8,7 +8,7 @@ It‘s a ssd-like object detect framework, but slightly different, combines lots
 
 now it is mainly optimised about face detection, and borrows tons of code from tensorpack
 
-it achieves 0.982 on FDDB, not tested on widerface. 
+it achieves 0.985 on FDDB, not tested on widerface. 
 
 
 ps, the code maybe not that clear, please be patience, and i am still working on it, and forgive me for my poor english :)
@@ -41,10 +41,9 @@ and release the WIDER_train, WIDER_val and wider_face_split into ./WIDER, or som
 
 `python prepare_wider_data.py` it will produce train.txt and val.txt
 
-2.download the imagenet pretrained resnet50 model from http://download.tensorflow.org/models/resnet_v1_50_2016_08_28.tar.gz
+2.download the imagenet pretrained vgg16 model from http://download.tensorflow.org/models/vgg_16_2016_08_28.tar.gz
 
 release it in the root dir,
-as in train_config.py set config.MODEL.pretrained_model='resnet_v1_50.ckpt',config.MODEL.continue_train=False
 
 3.but if u want to train from scratch set config.MODEL.pretrained_model=None,
 

@@ -300,10 +300,24 @@ class trainner():
 
 
             ###set inputs and ouputs
-            self.inputs = [images_place_holder_list, boxes_place_holder_list, labels_place_holder_list, keep_prob,
-                           L2_reg, training]
-            self.outputs = [train_op, total_loss_to_show, reg_loss, cla_loss, l2_loss, lr]
-            self.val_outputs = [grads, total_loss_to_show, reg_loss, cla_loss, l2_loss, lr]
+            self.inputs = [images_place_holder_list,
+                           boxes_place_holder_list,
+                           labels_place_holder_list,
+                           keep_prob,
+                           L2_reg,
+                           training]
+            self.outputs = [train_op,
+                            total_loss_to_show,
+                            reg_loss,
+                            cla_loss,
+                            l2_loss,
+                            lr]
+            self.val_outputs = [grads,
+                                total_loss_to_show,
+                                reg_loss,
+                                cla_loss,
+                                l2_loss,
+                                lr]
 
 
 

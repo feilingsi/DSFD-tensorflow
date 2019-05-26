@@ -1,4 +1,4 @@
-from net_work import trainner
+from base_trainer.net_work import trainner
 import setproctitle
 setproctitle.setproctitle("ssd-like")
 

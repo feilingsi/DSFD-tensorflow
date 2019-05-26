@@ -107,7 +107,7 @@ for n in tqdm(images_to_use):
     ##flip det
     flip_img=np.flip(image_array,1)
 
-    boxes_flip_ = face_detector(flip_img, score_threshold=0.01)
+    boxes_flip_ = face_detector(flip_img, score_threshold=0.05)
     boxes_flip = np.zeros(boxes_flip_.shape)
     boxes_flip[:, 0] = flip_img.shape[1] - boxes_flip_[:, 2]
     boxes_flip[:, 1] = boxes_flip_[:, 1]
@@ -120,9 +120,16 @@ for n in tqdm(images_to_use):
 
     dets = bbox_vote(det)
 
-    for i in range(dets.shape[0]):
-        dets[i,0:4] = np.array([dets[i][1], dets[i][0], dets[i][3],
-                             dets[i][2]])  #####the faceboxes produce ymin,xmin,ymax,xmax
+    if args.is_show:
+        for bbox in dets:
+            if bbox[4] > 0.3:
+                # cv2.circle(img_show,(p[0],p[1]),3,(0,0,213),-1)
+                cv2.rectangle(image_array, (int(bbox[0]), int(bbox[1])),
+                              (int(bbox[2]), int(bbox[3])), (255, 0, 0), 7)
+        cv2.imshow('tmp', image_array)
+        cv2.waitKey(0)
+
+
     ###
 
 
@@ -134,7 +141,7 @@ with open(os.path.join(RESULT_DIR, 'detections.txt'), 'w') as f:
         f.write(n + '\n')
         f.write(str(len(boxes)) + '\n')
         for b, s in zip(boxes, scores):
-            ymin, xmin, ymax, xmax = b
+            xmin, ymin, xmax, ymax = b
             h, w = int(ymax - ymin+1), int(xmax - xmin+1)
             f.write('{0} {1} {2} {3} {4:.4f}\n'.format(int(xmin), int(ymin), w, h, s))
 

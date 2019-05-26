@@ -5,7 +5,7 @@ import numpy as np
 from api.face_detector import FaceDetector
 from tools.to_lableimg import to_xml
 from tools.to_labelme import to_json
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 detector = FaceDetector('./model/detector.pb')
 
 import os
@@ -25,7 +25,7 @@ def GetFileList(dir, fileList):
 
 def facedetect():
     count = 0
-    data_dir = '/home/lz/下载'
+    data_dir = 'your pic dir'
     pics = []
     GetFileList(data_dir,pics)
 

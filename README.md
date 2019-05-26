@@ -8,12 +8,23 @@ It‘s a ssd-like object detect framework, but slightly different, combines lots
 
 now it is mainly optimised about face detection, and borrows tons of code from tensorpack
 
-it achieves 0.985 on FDDB, not tested on widerface. 
-
 
 ps, the code maybe not that clear, please be patience, and i am still working on it, and forgive me for my poor english :)
 
-![FDDB eval](https://github.com/610265158/dsfd_tensorflow/blob/master/Figure_1.png)
+
+widerface  val set
+
+| Easy MAP | Medium MAP | hard MAP |
+| :------: | :------: | :------: |
+|  0.937 | 0.930 | 0.878 |
+
+
+
+| fddb   |
+| :------: | 
+|  0.984 | 
+
+
 
 ## requirment
 

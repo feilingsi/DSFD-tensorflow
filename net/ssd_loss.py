@@ -121,9 +121,6 @@ def focal_loss(prediction_tensor, target_tensor, weights=None, alpha=0.25, gamma
     return tf.reduce_sum(per_entry_cross_ent,axis=2)
 
 
-
-
-
 def ohem_loss(logits, targets, weights):
 
 
@@ -180,6 +177,9 @@ def ohem_loss(logits, targets, weights):
 
 
     return neg_loss+pos_loss
+
+
+
 
 def apply_hard_mining(
         location_losses, cls_losses,

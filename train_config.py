@@ -18,7 +18,7 @@ config.TRAIN.iter_num_per_epoch = config.TRAIN.train_set_size // config.TRAIN.nu
 
 config.TRAIN.val_iter=config.TRAIN.val_set_size// config.TRAIN.num_gpu // config.TRAIN.batch_size
 
-config.TRAIN.lr_value_every_step = [0.001,0.0001,0.00001,0.000001]
+config.TRAIN.lr_value_every_step = [0.0005,0.0001,0.00001,0.000001]
 config.TRAIN.lr_decay_every_step = [60000,80000,100000]
 
 

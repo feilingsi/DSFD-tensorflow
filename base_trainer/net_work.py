@@ -488,7 +488,3 @@ class trainner():
 
 
 
-
-trainner=trainner()
-
-trainner.train()

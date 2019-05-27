@@ -27,7 +27,7 @@ config.TRAIN.dropout=0.5  ##no use
 config.TRAIN.vis=False
 
 config.TRAIN.norm='None'    ##'GN' OR 'BN'
-config.TRAIN.lock_basenet_bn=False    ##'GN' OR 'BN'
+config.TRAIN.lock_basenet_bn=False
 config.TEST = edict()
 config.TEST.PARALLEL_ITERATIONS=8
 # Smaller threshold value gives significantly better mAP. But we use 0.05 for consistency with Detectron.

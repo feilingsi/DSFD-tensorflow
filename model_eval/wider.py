@@ -13,7 +13,7 @@ ap = argparse.ArgumentParser()
 ap.add_argument( "--model", required=False, default='model/detector.pb', help="model to eval:")
 ap.add_argument( "--is_show", required=False, default=False, help="show result or not?")
 ap.add_argument( "--data_dir", required=False, default="./WIDER/WIDER_val", help="dir to img")
-ap.add_argument( "--result", required=True,default='',help="dir to write result")
+ap.add_argument( "--result", required=True,default='./result',help="dir to write result")
 args = ap.parse_args()
 
 

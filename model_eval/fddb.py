@@ -102,7 +102,7 @@ for n in tqdm(images_to_use):
     # threshold is important to set low
 
 
-    boxes = face_detector(image_array, score_threshold=0.01)
+    boxes = face_detector(image_array, score_threshold=0.05)
 
     ##flip det
     flip_img=np.flip(image_array,1)

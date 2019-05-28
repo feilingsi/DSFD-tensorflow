@@ -5,7 +5,7 @@
 A tensorflow implement dsfd, and there is something different with the origin paper.
 
 It‘s a ssd-like object detect framework, but slightly different,
-combines lots of tricks for face detection, such as dual-shot, dense anchor match, FPN and so on.
+combines lots of tricks for face detection, such as dual-shot, dense anchor match, FPN,FEM and so on.
 
 now it is mainly optimised about face detection,
 and borrows some codes from other repos
@@ -13,17 +13,19 @@ and borrows some codes from other repos
 ps, the code maybe not that clear, please be patience, and i am still working on it, and forgive me for my poor english :)
 
 
+the evaluation results are based on vgg with batchsize(2x16),pretrained model can be download from
+https://pan.baidu.com/s/1cUqnf9BwUVkCy0iT6EczKA ( password ty4d )
 
 widerface  val set
 
 | Easy MAP | Medium MAP | hard MAP |
 | :------: | :------: | :------: |
-|  0.937 | 0.930 | 0.879 |
+|  0.942 | 0.935 | 0.880 |
 
 
 | fddb   |
 | :------: | 
-|  0.984 | 
+|  0.987 | 
 
 
 

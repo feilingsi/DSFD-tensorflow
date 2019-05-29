@@ -13,7 +13,7 @@ and borrows some codes from other repos
 ps, the code maybe not that clear, please be patience, and i am still working on it, and forgive me for my poor english :)
 
 
-the evaluation results are based on vgg with batchsize(2x16),pretrained model can be download from
+the evaluation results are based on vgg with batchsize(2x6),pretrained model can be download from
 https://pan.baidu.com/s/1cUqnf9BwUVkCy0iT6EczKA ( password ty4d )
 
 widerface  val set
